@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MailApp Assignment</string>
+    <string name="wrong_input">Please input valid info</string>
+</resources>
