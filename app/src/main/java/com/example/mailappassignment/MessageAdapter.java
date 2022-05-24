@@ -6,6 +6,7 @@ import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,84 +15,54 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
-    //extends RecyclerView's adapters which is a particle view,
-    // RecyclerView is a repeatable object in our view page, for example: Post
-
-    //adapter can help us use lists, reminds me of an iterator
+public class MessageAdapter extends BaseAdapter {
+    //adapter can help us use lists
     //gets a list in its C-TOR, implements important functions
     private List<Message> msgList;
 
-    private Context context;
-
-    public MessageAdapter(Context context, List<Message> msgList) {
-        this.context = context;
+    public MessageAdapter(List<Message> msgList) {
         this.msgList = msgList;
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //inflating...
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.post_item_layout,parent,false); //TODO layout messgae
-
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //single click - goto specific message
-                Intent specificMessageIntent = new Intent(context, MessageActivity.class);
-                context.startActivity(specificMessageIntent);
-            }
-        });
-
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                //long click - delete message
-                //TODO delete message using DAO
-                return false;
-            }
-        });
-
-        return new ViewHolder(view); //returning a view-holder item, which contains the inflated view information
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //postList[position] -> holder
-        Message msg = msgList.get(position);
-
-        //puts information view (actually in view-holder)
-        holder.tvTitle.setText(msg.getTitle());
-        holder.tvTime.setText(msg.getTime().toString());
-        holder.tvSender.setText(msg.getSender());
-        holder.tvReceiver.setText(msg.getReceiver());
-    }
-
-    @Override
-    public int getItemCount() { //IMPORTANT!!!!!!!
+    public int getCount() {
         return msgList.size();
     }
 
+    @Override
+    public Object getItem(int i) {
+        return msgList.get(i);
+    }
 
+    @Override
+    public long getItemId(int i) {
+        return Long.parseLong(msgList.get(i).getId());
+    }
 
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvTitle;
-        TextView tvTime;
-        TextView tvSender;
-        TextView tvReceiver;
-
-        //in C-TOR we get all view items from our layout using
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView); //after it's inflated
-
-            tvTitle = itemView.findViewById(R.id.textView);  //get text-view item from our VIEW, so we could set it (by id)
-            tvTime = itemView.findViewById(R.id.textView3);
-            tvSender = itemView.findViewById(R.id.imageView);
-            tvReceiver = itemView.findViewById(R.id.textView2);
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        if(view==null) //haven't been created before, first time shown
+        {
+            //inflate takes XML file and creates a view item by its info
+            View itemView = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.message_view_item,viewGroup,false);
+            view = itemView;
         }
+        //else : view has been created before and hasn't been deleted/freed,
+        // we've just scrolled down - not in view, but still exists for a while
+        // (jvm's garbage collector will free in later on)
+
+        //TODO edit and change textView-s
+        TextView tvTitle = view.findViewById(R.id.textView);  //get text-view item from our VIEW, so we could set it (by id)
+        TextView tvTime = view.findViewById(R.id.textView);
+        TextView tvSender = view.findViewById(R.id.textView);
+        TextView tvReceiver = view.findViewById(R.id.textView); //create a new useable text for us to view
+
+        tvTitle.setText(msgList.get(i).getTitle());
+        tvTime.setText(msgList.get(i).getTime());
+        tvSender.setText(msgList.get(i).getSender());
+        tvReceiver.setText(msgList.get(i).getReceiver());
+
+        return view;
     }
 }

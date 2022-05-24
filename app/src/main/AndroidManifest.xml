@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MailAppAssignment">
         <activity
+            android:name=".CreateMessageActivity"
+            android:exported="false" />
+        <activity
             android:name=".MessageActivity"
             android:exported="false" />
         <activity
