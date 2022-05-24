@@ -4,7 +4,6 @@ package com.example.mailappassignment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -12,8 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Date;
 
 public class CreateMessageActivity extends AppCompatActivity {
 
@@ -39,8 +36,8 @@ public class CreateMessageActivity extends AppCompatActivity {
             Message comment = msgDao.get(id);
             comment.setCommentId(msg.getId());
 
-            TextView tvSender = findViewById(R.id.textView);
-            TextView tvReceiver = findViewById(R.id.textView); //create a new useable text for us to view
+            TextView tvSender = findViewById(R.id.tvSender);
+            TextView tvReceiver = findViewById(R.id.tvSender); //create a new useable text for us to view
 
             tvSender.setText(comment.getReceiver());
             tvReceiver.setText(comment.getSender());
@@ -56,10 +53,10 @@ public class CreateMessageActivity extends AppCompatActivity {
 
         btn.setOnClickListener(view -> {
             //TODO edit and change edt-s
-            EditText edtTitle = findViewById(R.id.edt); //get input line (edit text) by id]
-            EditText edtSender = findViewById(R.id.edt);
-            EditText edtReciver = findViewById(R.id.edt);
-            EditText edtContent = findViewById(R.id.edt);
+            EditText edtTitle = findViewById(R.id.edtTitle); //get input line (edit text) by id]
+            EditText edtSender = findViewById(R.id.edtSender);
+            EditText edtReciver = findViewById(R.id.edtReciver);
+            EditText edtContent = findViewById(R.id.edtContent);
             //TODO title, sender, receiver, content
 
             boolean exists=false;
@@ -74,7 +71,7 @@ public class CreateMessageActivity extends AppCompatActivity {
                         !TextUtils.isEmpty(strContent)) {
 
                     //add message using DAO
-                    msg=new Message(strTitle, strSender, strReciver, strContent, new Date());
+                    msg=new Message(strTitle, strSender, strReciver, strContent);
                     msgDao.insert(msg);
 
                     //Intent intent = new Intent(this, MainActivity.class); //go back to main activity

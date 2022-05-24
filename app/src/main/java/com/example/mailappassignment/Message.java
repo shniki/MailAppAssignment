@@ -18,7 +18,7 @@ public class Message {
     private String time;
     private String commentId;
 
-    public Message(@NonNull String id, String sender, String receiver, String title, String content, String time, String commentId) {
+    /*public Message(@NonNull String id, String sender, String receiver, String title, String content, String time, String commentId) {
         this.id = id;
         this.sender = sender;
         this.receiver = receiver;
@@ -26,14 +26,14 @@ public class Message {
         this.content = content;
         this.time = time;
         this.commentId = commentId;
-    }
+    }*/
 
-    public Message(String sender, String receiver, String title, String content, Date time) {
+    public Message(String sender, String receiver, String title, String content) {
         this.sender = sender;
         this.receiver = receiver;
         this.title = title;
         this.content = content;
-        this.time = time.toString();
+        this.time = new Date().toString();
         this.id = sender+", "+time.toString();
         this.commentId = "null"; //no comment
     }

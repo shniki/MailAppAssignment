@@ -1,17 +1,10 @@
 package com.example.mailappassignment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.view.ContentInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -19,6 +12,13 @@ public class MessageAdapter extends BaseAdapter {
     //adapter can help us use lists
     //gets a list in its C-TOR, implements important functions
     private List<Message> msgList;
+
+    private class ViewHolder{
+        TextView tvTitle;
+        TextView tvTime;
+        TextView tvSender;
+        TextView tvReceiver;
+    }
 
     public MessageAdapter(List<Message> msgList) {
         this.msgList = msgList;
@@ -31,12 +31,12 @@ public class MessageAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return msgList.get(i);
+        return null;//msgList.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return Long.parseLong(msgList.get(i).getId());
+        return 0;//Long.parseLong(msgList.get(i).getId());
     }
 
     @Override
@@ -44,24 +44,27 @@ public class MessageAdapter extends BaseAdapter {
         if(view==null) //haven't been created before, first time shown
         {
             //inflate takes XML file and creates a view item by its info
-            View itemView = LayoutInflater.from(viewGroup.getContext())
+            view = LayoutInflater.from(viewGroup.getContext())
                     .inflate(R.layout.message_view_item,viewGroup,false);
-            view = itemView;
+
+            ViewHolder viewHolder = new ViewHolder();
+            //TODO edit and change textView-s
+            viewHolder.tvTitle = view.findViewById(R.id.tvTitle);  //get text-view item from our VIEW, so we could set it (by id)
+            viewHolder.tvTime = view.findViewById(R.id.tvTime);
+            viewHolder.tvSender = view.findViewById(R.id.tvSender);
+            viewHolder.tvReceiver = view.findViewById(R.id.tvReceiver); //create a new useable text for us to view
+
+            view.setTag(viewHolder);
         }
         //else : view has been created before and hasn't been deleted/freed,
         // we've just scrolled down - not in view, but still exists for a while
         // (jvm's garbage collector will free in later on)
 
-        //TODO edit and change textView-s
-        TextView tvTitle = view.findViewById(R.id.textView);  //get text-view item from our VIEW, so we could set it (by id)
-        TextView tvTime = view.findViewById(R.id.textView);
-        TextView tvSender = view.findViewById(R.id.textView);
-        TextView tvReceiver = view.findViewById(R.id.textView); //create a new useable text for us to view
-
-        tvTitle.setText(msgList.get(i).getTitle());
-        tvTime.setText(msgList.get(i).getTime());
-        tvSender.setText(msgList.get(i).getSender());
-        tvReceiver.setText(msgList.get(i).getReceiver());
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
+        viewHolder.tvTitle.setText(msgList.get(i).getTitle());
+        viewHolder.tvTime.setText(msgList.get(i).getTime());
+        viewHolder.tvSender.setText(msgList.get(i).getSender());
+        viewHolder.tvReceiver.setText(msgList.get(i).getReceiver());
 
         return view;
     }
