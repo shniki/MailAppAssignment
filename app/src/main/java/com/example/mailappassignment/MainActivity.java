@@ -8,7 +8,6 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {

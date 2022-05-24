@@ -28,7 +28,7 @@ public class Message {
         this.commentId = commentId;
     }*/
 
-    public Message(String sender, String receiver, String title, String content) {
+    public Message(String title, String sender, String receiver, String content) {
         this.sender = sender;
         this.receiver = receiver;
         this.title = title;

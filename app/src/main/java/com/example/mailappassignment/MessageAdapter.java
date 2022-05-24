@@ -48,11 +48,10 @@ public class MessageAdapter extends BaseAdapter {
                     .inflate(R.layout.message_view_item,viewGroup,false);
 
             ViewHolder viewHolder = new ViewHolder();
-            //TODO edit and change textView-s
             viewHolder.tvTitle = view.findViewById(R.id.tvTitle);  //get text-view item from our VIEW, so we could set it (by id)
             viewHolder.tvTime = view.findViewById(R.id.tvTime);
             viewHolder.tvSender = view.findViewById(R.id.tvSender);
-            viewHolder.tvReceiver = view.findViewById(R.id.tvReceiver); //create a new useable text for us to view
+            viewHolder.tvReceiver = view.findViewById(R.id.tvReceiver); //create a new usable text for us to view
 
             view.setTag(viewHolder);
         }

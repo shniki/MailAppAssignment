@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface MessageDao {
     //@Insert(onConflict = OnConflictStrategy.REPLACE) void insertAll(Message... messages); //add message
     @Insert
     void insert(Message... messages); //add message
+
+    @Update
+    void update(Message... messages); //update message
 
     @Delete
     void delete(Message message); //delete messages

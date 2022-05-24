@@ -16,9 +16,8 @@ public class CreateMessageActivity extends AppCompatActivity {
 
     private AppDB db;
     private Message msg;
+    private Message commentOn;
     MessageDao msgDao;
-    TextView tvSender;
-    TextView tvReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,22 +28,24 @@ public class CreateMessageActivity extends AppCompatActivity {
                 .allowMainThreadQueries().build();
 
         msgDao = db.messageDao();
+        commentOn=null;
         handleSave();
 
         if(getIntent().getExtras()!=null){ //get commented message from intent
             String id = getIntent().getExtras().getString("id");
-            Message comment = msgDao.get(id);
-            comment.setCommentId(msg.getId());
+            commentOn = msgDao.get(id);
 
-            TextView tvSender = findViewById(R.id.tvSender);
-            TextView tvReceiver = findViewById(R.id.tvSender); //create a new useable text for us to view
+            EditText edtSender = findViewById(R.id.edtSender);
+            EditText edtReceiver = findViewById(R.id.edtReciver); //create a new useable text for us to view
 
-            tvSender.setText(comment.getReceiver());
-            tvReceiver.setText(comment.getSender());
+            String str1 = commentOn.getReceiver();
+            String str2 = commentOn.getSender();
 
-            //TODO make sender + receiver non changeable
+            edtSender.setText(str1);
+            edtReceiver.setText(str2);
 
-            //TODO updateDB
+            edtSender.setEnabled(false);
+            edtReceiver.setEnabled(false);
         }
     }
 
@@ -52,26 +53,28 @@ public class CreateMessageActivity extends AppCompatActivity {
         Button btn = findViewById(R.id.btnSend);
 
         btn.setOnClickListener(view -> {
-            //TODO edit and change edt-s
             EditText edtTitle = findViewById(R.id.edtTitle); //get input line (edit text) by id]
             EditText edtSender = findViewById(R.id.edtSender);
-            EditText edtReciver = findViewById(R.id.edtReciver);
+            EditText edtReceiver = findViewById(R.id.edtReciver);
             EditText edtContent = findViewById(R.id.edtContent);
-            //TODO title, sender, receiver, content
 
             boolean exists=false;
-            if(edtTitle!=null&&edtSender!=null&&edtReciver!=null&&edtContent!=null) {
+            if(edtTitle!=null&&edtSender!=null&&edtReceiver!=null&&edtContent!=null) {
                 String strTitle = edtTitle.getText().toString();
                 String strSender = edtSender.getText().toString();
-                String strReciver = edtReciver.getText().toString();
+                String strReceiver = edtReceiver.getText().toString();
                 String strContent = edtContent.getText().toString();
                 if (!TextUtils.isEmpty(strTitle)&&
                         !TextUtils.isEmpty(strSender)&&
-                        !TextUtils.isEmpty(strReciver)&&
+                        !TextUtils.isEmpty(strReceiver)&&
                         !TextUtils.isEmpty(strContent)) {
 
                     //add message using DAO
-                    msg=new Message(strTitle, strSender, strReciver, strContent);
+                    msg=new Message(strTitle, strSender, strReceiver, strContent);
+                    if(commentOn!=null) {
+                        commentOn.setCommentId(msg.getId());
+                        msgDao.update(commentOn);
+                    }
                     msgDao.insert(msg);
 
                     //Intent intent = new Intent(this, MainActivity.class); //go back to main activity

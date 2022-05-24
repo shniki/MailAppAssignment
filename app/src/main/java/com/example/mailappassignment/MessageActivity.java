@@ -1,20 +1,22 @@
 package com.example.mailappassignment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MessageActivity extends AppCompatActivity {
     private AppDB db;
-    private Message msg;
+    private List<Message> msgList;
+    private CommentsAdapter adapter;
     MessageDao msgDao;
 
     @Override
@@ -29,30 +31,41 @@ public class MessageActivity extends AppCompatActivity {
 
         if(getIntent().getExtras()!=null){ //get message from intent
             String id = getIntent().getExtras().getString("id");
-            msg = msgDao.get(id);
 
-            //TODO edit and change textView2-s
-            TextView tvTitle = findViewById(R.id.textView2);  //get text-view item from our VIEW, so we could set it (by id)
-            TextView tvTime = findViewById(R.id.textView2);
-            TextView tvSender = findViewById(R.id.textView2);
-            TextView tvReceiver = findViewById(R.id.textView2); //create a new useable text for us to view
-            TextView tvContent = findViewById(R.id.textView2);
+            createList(id);
 
-            tvTitle.setText(msg.getTitle());
-            tvTime.setText(msg.getTime());
-            tvSender.setText(msg.getSender());
-            tvReceiver.setText(msg.getReceiver());
-            tvContent.setText(msg.getContent());
-
-            //TODO add comments
+            RecyclerView recyclerView = findViewById(R.id.rvComments); //get recycler-view by id
+            adapter = new CommentsAdapter(msgList); //create adapter
+            recyclerView.setAdapter(adapter); //set adapter
+            //choose type of layout: linear, horological or staggered
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
 
         Button btn = findViewById(R.id.btnComment);
         btn.setOnClickListener(view -> {
             Intent intent = new Intent(this, CreateMessageActivity.class);
-            intent.putExtra("id", msg.getId()); //what are we commenting on
+            intent.putExtra("id", msgList.get(msgList.size()-1).getId()); //what are we commenting on
             //intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        adapter.notifyDataSetChanged();
+    }
+
+    private void createList(String id){
+        if(msgList!=null)
+            msgList.clear();
+        msgList=new ArrayList<>();
+        Message msgPos; //get first message
+        while(!id.equals("null")){
+            msgPos = msgDao.get(id); //get message
+            msgList.add(msgPos); //add message to list
+            id = msgPos.getCommentId(); //get Next ID
+        }
     }
 }
