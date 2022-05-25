@@ -17,6 +17,7 @@ public class MessageActivity extends AppCompatActivity {
     private AppDB db;
     private List<Message> msgList;
     private CommentsAdapter adapter;
+    private String id; //id of opened message
     MessageDao msgDao;
 
     @Override
@@ -30,9 +31,9 @@ public class MessageActivity extends AppCompatActivity {
         msgDao = db.messageDao();
 
         if(getIntent().getExtras()!=null){ //get message from intent
-            String id = getIntent().getExtras().getString("id");
+            id = getIntent().getExtras().getString("id");
 
-            createList(id);
+            msgList=new ArrayList<>();
 
             RecyclerView recyclerView = findViewById(R.id.rvComments); //get recycler-view by id
             adapter = new CommentsAdapter(msgList); //create adapter
@@ -54,18 +55,20 @@ public class MessageActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        createList(id);
+
         adapter.notifyDataSetChanged();
     }
 
     private void createList(String id){
+        String idPos = id;
         if(msgList!=null)
             msgList.clear();
-        msgList=new ArrayList<>();
         Message msgPos; //get first message
-        while(!id.equals("null")){
-            msgPos = msgDao.get(id); //get message
+        while(!idPos.equals("null")){
+            msgPos = msgDao.get(idPos); //get message
             msgList.add(msgPos); //add message to list
-            id = msgPos.getCommentId(); //get Next ID
+            idPos = msgPos.getCommentId(); //get Next ID
         }
     }
 }
