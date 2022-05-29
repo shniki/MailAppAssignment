@@ -60,6 +60,10 @@ public class CreateMessageActivity extends AppCompatActivity {
 
             boolean exists=false;
             if(edtTitle!=null&&edtSender!=null&&edtReceiver!=null&&edtContent!=null) {
+                if (!edtSender.toString().matches(R.string.email_regex) || !edtReceiver.toString().matches(R.string.email_regex)) {  // TODO: FIX PROBLEM WITH REGEX STRING
+                    Snackbar.make(view, R.string.wrong_emails, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 String strTitle = edtTitle.getText().toString();
                 String strSender = edtSender.getText().toString();
                 String strReceiver = edtReceiver.getText().toString();
