@@ -1,13 +1,14 @@
 
 package com.example.mailappassignment;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.Button;
+import android.util.Patterns;
 import android.widget.EditText;
+import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -23,6 +24,8 @@ public class CreateMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_message);
 
+        getSupportActionBar().setTitle(R.string.title_new);
+
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "MessagesDb")
                 .allowMainThreadQueries().build();
 
@@ -31,11 +34,13 @@ public class CreateMessageActivity extends AppCompatActivity {
         handleSave();
 
         if(getIntent().getExtras()!=null){ //get commented message from intent
+            getSupportActionBar().setTitle(R.string.title_reply);
+
             String id = getIntent().getExtras().getString("id");
             commentOn = msgDao.get(id);
 
             EditText edtSender = findViewById(R.id.edtSender);
-            EditText edtReceiver = findViewById(R.id.edtReciver); //create a new usable text for us to view
+            EditText edtReceiver = findViewById(R.id.edtReceiver); //create a new usable text for us to view
 
             String str1 = commentOn.getReceiver();
             String str2 = commentOn.getSender();
@@ -49,12 +54,12 @@ public class CreateMessageActivity extends AppCompatActivity {
     }
 
     private void handleSave(){
-        Button btn = findViewById(R.id.btnSend);
+        ImageButton btn = findViewById(R.id.btnSend);
 
         btn.setOnClickListener(view -> {
             EditText edtTitle = findViewById(R.id.edtTitle); //get input line (edit text) by id]
             EditText edtSender = findViewById(R.id.edtSender);
-            EditText edtReceiver = findViewById(R.id.edtReciver);
+            EditText edtReceiver = findViewById(R.id.edtReceiver);
             EditText edtContent = findViewById(R.id.edtContent);
 
             boolean exists=false;
@@ -63,8 +68,7 @@ public class CreateMessageActivity extends AppCompatActivity {
                 String strSender = edtSender.getText().toString();
                 String strReceiver = edtReceiver.getText().toString();
                 String strContent = edtContent.getText().toString();
-                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                if (!strSender.matches(emailPattern) || !strReceiver.matches(emailPattern)) {  // TODO: FIX PROBLEM WITH REGEX STRING
+                if(!Patterns.EMAIL_ADDRESS.matcher(strSender).matches()||!Patterns.EMAIL_ADDRESS.matcher(strReceiver).matches()) {
                     Snackbar.make(view, R.string.wrong_emails, Snackbar.LENGTH_LONG).show();
                     return;
                 }

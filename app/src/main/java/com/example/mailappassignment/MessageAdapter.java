@@ -59,11 +59,14 @@ public class MessageAdapter extends BaseAdapter {
         // we've just scrolled down - not in view, but still exists for a while
         // (jvm's garbage collector will free in later on)
 
+        String from = viewGroup.getContext().getString(R.string.txt_from);
+        String to = viewGroup.getContext().getString(R.string.txt_to);
+
         ViewHolder viewHolder = (ViewHolder) view.getTag();
         viewHolder.tvTitle.setText(msgList.get(i).getTitle());
         viewHolder.tvTime.setText(msgList.get(i).getTime());
-        viewHolder.tvSender.setText(msgList.get(i).getSender());
-        viewHolder.tvReceiver.setText(msgList.get(i).getReceiver());
+        viewHolder.tvSender.setText(from+msgList.get(i).getSender());
+        viewHolder.tvReceiver.setText(to+msgList.get(i).getReceiver());
 
         return view;
     }

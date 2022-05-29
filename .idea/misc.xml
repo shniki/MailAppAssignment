@@ -4,11 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.10011749267578125" />
-        <entry key="app/src/main/res/layout/activity_create_message.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/activity_create_message.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_message.xml" value="0.10260416666666666" />
+        <entry key="app/src/main/res/layout/activity_message.xml" value="0.102215576171875" />
         <entry key="app/src/main/res/layout/comment_view_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/message_view_item.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>
   </component>

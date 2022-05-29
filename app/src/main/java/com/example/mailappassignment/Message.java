@@ -33,9 +33,14 @@ public class Message {
         this.receiver = receiver;
         this.title = title;
         this.content = content;
-        this.time = new Date().toString();
+        this.time = dateParse();
         this.id = sender+", "+time.toString();
         this.commentId = "null"; //no comment
+    }
+
+    private String dateParse(){
+        String[] fullDate= new Date().toString().split(" ");
+        return fullDate[1]+" "+fullDate[2]+" "+fullDate[5]+", "+fullDate[3];
     }
 
     public String getId() {

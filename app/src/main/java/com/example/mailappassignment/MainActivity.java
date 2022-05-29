@@ -2,12 +2,13 @@ package com.example.mailappassignment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,12 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setTitle(R.string.title_all);
+
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "MessagesDb")
                 .allowMainThreadQueries().build();
 
         msgDao = db.messageDao();
 
-        Button btn = findViewById(R.id.btnAddNew);
+        ImageButton btn = findViewById(R.id.btnAddNew);
 
         btn.setOnClickListener(view->{
             Intent intent = new Intent(this, CreateMessageActivity.class);
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadMessages(){
         //messages.clear();
         msgDb = msgDao.index();
+        Collections.reverse(msgDb); //messages will show be from new to old
         //for (Message msg : msgDb)
         //    messages.add(msg.getId());
 

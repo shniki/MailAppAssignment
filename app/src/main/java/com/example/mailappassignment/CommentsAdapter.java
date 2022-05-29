@@ -12,6 +12,7 @@ import java.util.List;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHolder> {
     List<Message> msgList;
+    String from, to, re;
 
     public CommentsAdapter(List<Message> msgList) {
         this.msgList = msgList;
@@ -24,6 +25,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.comment_view_item,parent,false);
 
+        from = parent.getContext().getString(R.string.txt_from);
+        to = parent.getContext().getString(R.string.txt_to);
+        re = parent.getContext().getString(R.string.txt_re);
+
         return new ViewHolder(view); //returning a view-holder item, which contains the inflated view information
     }
 
@@ -34,9 +39,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         //puts information view (actually in view-holder)
         holder.tvTitle.setText(msg.getTitle());
         holder.tvTime.setText(msg.getTime());
-        holder.tvSender.setText(msg.getSender());
-        holder.tvReceiver.setText(msg.getReceiver());
+        holder.tvSender.setText(from+msg.getSender());
+        holder.tvReceiver.setText(to+msg.getReceiver());
         holder.tvContent.setText(msg.getContent());
+
+        if(position!=0)
+            holder.tvTitle.setText(re+msg.getTitle());
     }
 
     @Override

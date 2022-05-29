@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">MailApp Assignment</string>
     <string name="wrong_input">Please input valid info</string>
-    <string name="email_regex">"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"</string>
     <string name="wrong_emails">Please enter valid email addresses for sender and receiver</string>
+    <string name="title_all">All Messages</string>
+    <string name="title_new">New Message</string>
+    <string name="title_reply">Reply To Message</string>
+    <string name="title_details">Message Details</string>
+    <string name="txt_from">"From: "</string>
+    <string name="txt_to">"To: "</string>
+    <string name="txt_re">"Re: "</string>
+    <string name="tv_txt_title">Title</string>
+    <string name="tv_txt_sender">From</string>
+    <string name="tv_txt_receiver">To</string>
+    <string name="txt_send">Send</string>
 </resources>

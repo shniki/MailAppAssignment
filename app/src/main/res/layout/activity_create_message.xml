@@ -17,21 +17,28 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="Name" />
+            android:hint="@string/tv_txt_title"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/edtSender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:hint="@string/tv_txt_sender"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <EditText
-            android:id="@+id/edtReciver"
+            android:id="@+id/edtReceiver"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:hint="@string/tv_txt_receiver"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
         <EditText
             android:id="@+id/edtContent"
@@ -39,13 +46,16 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="start|top"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            android:autofillHints="" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnSend"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            app:srcCompat="@drawable/ic_send"
+            android:contentDescription="@string/txt_send" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

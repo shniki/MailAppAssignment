@@ -7,8 +7,7 @@ import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,8 @@ public class MessageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+
+        getSupportActionBar().setTitle(R.string.title_details);
 
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, "MessagesDb")
                 .allowMainThreadQueries().build();
@@ -42,7 +43,7 @@ public class MessageActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
         }
 
-        Button btn = findViewById(R.id.btnComment);
+        ImageButton btn = findViewById(R.id.btnComment);
         btn.setOnClickListener(view -> {
             Intent intent = new Intent(this, CreateMessageActivity.class);
             intent.putExtra("id", msgList.get(msgList.size()-1).getId()); //what are we commenting on
