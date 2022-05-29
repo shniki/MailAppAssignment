@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -36,7 +35,7 @@ public class CreateMessageActivity extends AppCompatActivity {
             commentOn = msgDao.get(id);
 
             EditText edtSender = findViewById(R.id.edtSender);
-            EditText edtReceiver = findViewById(R.id.edtReciver); //create a new useable text for us to view
+            EditText edtReceiver = findViewById(R.id.edtReciver); //create a new usable text for us to view
 
             String str1 = commentOn.getReceiver();
             String str2 = commentOn.getSender();
@@ -60,14 +59,15 @@ public class CreateMessageActivity extends AppCompatActivity {
 
             boolean exists=false;
             if(edtTitle!=null&&edtSender!=null&&edtReceiver!=null&&edtContent!=null) {
-                if (!edtSender.toString().matches(R.string.email_regex) || !edtReceiver.toString().matches(R.string.email_regex)) {  // TODO: FIX PROBLEM WITH REGEX STRING
-                    Snackbar.make(view, R.string.wrong_emails, Snackbar.LENGTH_LONG).show();
-                    return;
-                }
                 String strTitle = edtTitle.getText().toString();
                 String strSender = edtSender.getText().toString();
                 String strReceiver = edtReceiver.getText().toString();
                 String strContent = edtContent.getText().toString();
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                if (!strSender.matches(emailPattern) || !strReceiver.matches(emailPattern)) {  // TODO: FIX PROBLEM WITH REGEX STRING
+                    Snackbar.make(view, R.string.wrong_emails, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 if (!TextUtils.isEmpty(strTitle)&&
                         !TextUtils.isEmpty(strSender)&&
                         !TextUtils.isEmpty(strReceiver)&&
